@@ -1,5 +1,5 @@
 import torch
-from titanic.CustomDataset import titanic_dataset_test
+from titanic.neural_network.CustomDataset import titanic_test_dataset
 import numpy as np
 import pandas as pd
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
@@ -8,10 +8,10 @@ torch.manual_seed(42)
 
 # Evaluation
 dataset_test_path = '../data/test.csv'
-titanic_dataset_test = titanic_dataset_test(dataset_test_path)
+titanic_dataset_test = titanic_test_dataset(dataset_test_path)
 test_inputs, test_id = titanic_dataset_test.x, titanic_dataset_test.id
 test_inputs, test_id = test_inputs.to(device), test_id.to(device)
-net = torch.load('./model/model87+')
+net = torch.load('./model/model88+')
 net.eval()
 net.to(device)
 torch.no_grad()
@@ -23,3 +23,5 @@ submission[:, 0], submission[:, 1]= np.squeeze(test_id.to('cpu').detach().numpy(
 submission = submission.astype(int)
 submission = pd.DataFrame({'PassengerId': submission[:, 0], 'Survived': submission[:, 1]})
 submission.to_csv('./submissions/submission.csv', index=False)
+
+print('finished')

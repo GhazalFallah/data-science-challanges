@@ -69,3 +69,25 @@ class Net_test2(nn.Module):
         x = self.dropout(x)
         x = self.sigmoid(self.fc3(x))
         return x
+
+
+# Define Model
+class Net_test3(nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.fc1 = nn.Linear(20, 40)
+        self.fc2 = nn.Linear(40, 10)
+        self.fc3 = nn.Linear(10, 1)
+        self.sigmoid = nn.Sigmoid()
+        self.dropout = nn.Dropout(p=0.2)
+        self.batchnorm1 = nn.BatchNorm1d(num_features=40)
+        self.batchnorm2 = nn.BatchNorm1d(num_features=10)
+
+    def forward(self, x):
+        x = self.sigmoid(self.fc1(x))
+        # x = self.batchnorm1(x)
+        x = self.sigmoid(self.fc2(x))
+        x = self.batchnorm2(x)
+        x = self.dropout(x)
+        x = self.sigmoid(self.fc3(x))
+        return x

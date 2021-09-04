@@ -2,6 +2,7 @@ from torch.utils.data.dataset import Dataset
 import pandas as pd
 import torch
 from sklearn import preprocessing
+from titanic.PreprocessTitanic import preprocess_titanic_train, preprocess_titanic_test
 
 class titanic_dataset(Dataset):
     def __init__(self, dataset_path):
@@ -67,3 +68,33 @@ class titanic_dataset_test(Dataset):
 
 
 
+class titanic_train_dataset(Dataset):
+    def __init__(self, dataset_train_path):
+        x, y = preprocess_titanic_train(dataset_train_path)
+        self.x = torch.from_numpy(x).float()
+        self.y = torch.from_numpy(y).float()
+
+
+    def __len__(self):
+        return len(self.y)
+
+    def __getitem__(self, idx):
+        sample = (self.x[idx,:], self.y[idx])
+        return sample
+
+
+
+class titanic_test_dataset(Dataset):
+    def __init__(self, dataset_test_path):
+        x, id = preprocess_titanic_test(dataset_test_path)
+        self.x = torch.from_numpy(x).float()
+        self.id = torch.from_numpy(id)
+
+
+
+    def __len__(self):
+        return len(self.id)
+
+    def __getitem__(self, idx):
+        sample = (self.x[idx,:], self.id[idx])
+        return sample

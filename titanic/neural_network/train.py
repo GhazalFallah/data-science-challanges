@@ -3,16 +3,16 @@ from torch.utils.data import random_split, DataLoader
 import torch.nn as nn
 import torch.optim as optim
 import math
-from titanic.neural_network.CustomDataset import titanic_dataset
-from titanic.neural_network.model import Net_test2
+from titanic.neural_network.CustomDataset import titanic_train_dataset
+from titanic.neural_network.model import Net_test3
 import numpy as np
 import matplotlib.pyplot as plt
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 torch.manual_seed(42)
 
 
-dataset_path = '../data/train.csv'
-titanic_dataset = titanic_dataset(dataset_path)
+dataset_train_path = '../data/train.csv'
+titanic_dataset = titanic_train_dataset(dataset_train_path)
 
 val_num = math.ceil(len(titanic_dataset) * 0.2)
 train_num = len(titanic_dataset) - val_num
@@ -30,7 +30,7 @@ train_dataloader = DataLoader(train_set, batch_size=batch_size, shuffle=True)
 val_dataloader = DataLoader(val_set, batch_size=batch_size, shuffle=True)
 
 
-net = Net_test2()
+net = Net_test3()
 net.to(device)  # Move model to GPU
 
 criterion = nn.BCELoss()
@@ -49,8 +49,8 @@ for epoch in range(num_epochs):  # loop over the dataset multiple times
         break
     running_loss = 0.0
     for iteration, data in enumerate(train_dataloader):
-        if len(val_accuracy_list) > 10 and np.all(np.array([val_accuracy_list[-i-1].item() for i in range(11)]) >= 0.80):
-            torch.save(net, './model/model87+')
+        if len(val_accuracy_list) > 5 and np.all(np.array([val_accuracy_list[-i-1].item() for i in range(6)]) >= 0.88):
+            torch.save(net, './model/model88+')
             stop = 1
             break
         # get the inputs; data is a list of [inputs, labels]
