@@ -75,13 +75,13 @@ class Net_test2(nn.Module):
 class Net_test3(nn.Module):
     def __init__(self):
         super().__init__()
-        self.fc1 = nn.Linear(20, 40)
-        self.fc2 = nn.Linear(40, 10)
-        self.fc3 = nn.Linear(10, 1)
+        self.fc1 = nn.Linear(12, 24)
+        self.fc2 = nn.Linear(24, 12)
+        self.fc3 = nn.Linear(12, 1)
         self.sigmoid = nn.Sigmoid()
         self.dropout = nn.Dropout(p=0.2)
-        self.batchnorm1 = nn.BatchNorm1d(num_features=40)
-        self.batchnorm2 = nn.BatchNorm1d(num_features=10)
+        self.batchnorm1 = nn.BatchNorm1d(num_features=24)
+        self.batchnorm2 = nn.BatchNorm1d(num_features=12)
 
     def forward(self, x):
         x = self.sigmoid(self.fc1(x))

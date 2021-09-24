@@ -1,5 +1,6 @@
 import pandas as pd
 from sklearn import preprocessing
+import numpy as np
 
 def preprocess_titanic_train(train_set_path):
 
@@ -15,18 +16,25 @@ def preprocess_titanic_train(train_set_path):
 
     x = x.fillna(x[['Age']].mean())
 
+    # for i, item in enumerate(x['Cabin']):
+    #     if pd.notna(item):
+    #         x['Cabin'][i] = item[0]
+    #     else:
+    #         x['Cabin'][i] = 'X'
+    # dummies2 = pd.get_dummies(x.Cabin, prefix='Cabin')
+
     for i, item in enumerate(x['Cabin']):
         if pd.notna(item):
-            x['Cabin'][i] = item[0]
+            x['Cabin'][i] = 1.
         else:
-            x['Cabin'][i] = 'X'
-    dummies2 = pd.get_dummies(x.Cabin, prefix='Cabin')
+            x['Cabin'][i] = 0.
 
     x = x.fillna(x[['Embarked']].mode())
     dummies3 = pd.get_dummies(x.Embarked, prefix='Embarked')
 
-    x = x.drop(['Cabin', 'Embarked'], axis=1)
-    x = x.join(dummies2)
+    # x = x.drop(['Cabin', 'Embarked'], axis=1)
+    x = x.drop(['Embarked'], axis=1)
+    # x = x.join(dummies2)
     x = x.join(dummies3)
 
     x = preprocessing.normalize(x, axis=0)
@@ -52,18 +60,29 @@ def preprocess_titanic_test(test_set_path):
 
     x = x.fillna(x[['Fare']].mean())
 
+    # for i, item in enumerate(x['Cabin']):
+    #     if pd.notna(item):
+    #         x['Cabin'][i] = item[0]
+    #     else:
+    #         x['Cabin'][i] = 'X'
+    # dummies2 = pd.get_dummies(x.Cabin, prefix='Cabin')
+    # t1 = pd.DataFrame({'Cabin_X': dummies2.pop('Cabin_X')})
+    # t2 = pd.DataFrame({'Cabin_T': np.zeros(418)})
+    # t = t2.join(t1)
+    # dummies2 = dummies2.join(t)
+
     for i, item in enumerate(x['Cabin']):
         if pd.notna(item):
-            x['Cabin'][i] = item[0]
+            x['Cabin'][i] = 1.
         else:
-            x['Cabin'][i] = 'X'
-    dummies2 = pd.get_dummies(x.Cabin, prefix='Cabin')
+            x['Cabin'][i] = 0.
 
     # x = x.fillna(x[['Embarked']].mode())
     dummies3 = pd.get_dummies(x.Embarked, prefix='Embarked')
 
-    x = x.drop(['Cabin', 'Embarked'], axis=1)
-    x = x.join(dummies2)
+    # x = x.drop(['Cabin', 'Embarked'], axis=1)
+    x = x.drop(['Embarked'], axis=1)
+    # x = x.join(dummies2)
     x = x.join(dummies3)
 
     x = preprocessing.normalize(x, axis=0)

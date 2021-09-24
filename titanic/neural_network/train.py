@@ -49,7 +49,7 @@ for epoch in range(num_epochs):  # loop over the dataset multiple times
         break
     running_loss = 0.0
     for iteration, data in enumerate(train_dataloader):
-        if len(val_accuracy_list) > 5 and np.all(np.array([val_accuracy_list[-i-1].item() for i in range(6)]) >= 0.88):
+        if len(val_accuracy_list) > 3 and np.all(np.array([val_accuracy_list[-i-1].item() for i in range(4)]) >= 0.87):
             torch.save(net, './model/model88+')
             stop = 1
             break
